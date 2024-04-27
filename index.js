@@ -34,9 +34,17 @@ async function run() {
 
     app.get('/addspot/:id', async(req, res)=>{
       const id = req.params.id;
+      console.log(id)
       const query = {_id: new ObjectId(id)};
       const result = await tourismCollection.findOne(query);
       res.send(result);
+    })
+
+    app.get('/mycart/:email', async(req, res)=>{
+      const email = req.params.email;
+      console.log(email)
+      const result = await tourismCollection.find({email:req.params.email}).toArray();
+      res.send(result)
     })
 
     app.post('/addspot', async(req, res)=>{
