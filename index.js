@@ -53,6 +53,33 @@ async function run() {
       res.send(result);
     })
 
+    app.put('/update/:id', async(req, res)=>{
+      const id = req.params.id;
+      const updatedSpot = req.body;
+      console.log(updatedSpot)
+      const filter = {_id: new ObjectId(id)};
+      const options = {upsert: true};
+      const spot = {
+        $set: {
+          avg_cost: updatedSpot.avg_cost,
+          name: updatedSpot.name,
+          email: updatedSpot.email,
+          country: updatedSpot.country,
+          description: updatedSpot.description,
+          email: updatedSpot.email,
+          image: updatedSpot.image,
+          location: updatedSpot.location,
+          name: updatedSpot.name,
+          seasonality: updatedSpot.seasonality,
+          spotname: updatedSpot.spotname,
+          travel: updatedSpot.travel,
+          visitors: updatedSpot.visitors
+        }
+      }
+      const result = await tourismCollection.updateOne(filter,spot,options);
+      res.send(result);
+    })
+
     app.delete('/addspot/:id', async(req, res)=>{
       const id = req.params.id;
       const query = {_id: new ObjectId(id)}
