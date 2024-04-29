@@ -33,6 +33,12 @@ async function run() {
       res.send(result);
     })
 
+    app.get('/countries', async(req, res)=>{
+      const countries = countryCollection.find();
+      const result = await countries.toArray();
+      res.send(result);
+    })
+
     app.get('/addspot/:id', async(req, res)=>{
       const id = req.params.id;
       console.log(id)
@@ -52,6 +58,12 @@ async function run() {
       const spot = req.body;
       const result = await tourismCollection.insertOne(spot);
       res.send(result);
+    })
+
+    app.post('/countries', async(req, res)=>{
+      const country = req.body;
+      const result = await countryCollection.insertOne(country);
+      res.send();
     })
 
     app.put('/update/:id', async(req, res)=>{
