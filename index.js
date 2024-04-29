@@ -47,9 +47,14 @@ async function run() {
       res.send(result);
     })
 
+    app.get('/myspots/:country', async(req, res)=>{
+      const result = await tourismCollection.find({country:req.params.country}).toArray();
+      console.log(result);
+      res.send(result);
+    })
+
     app.get('/mycart/:email', async(req, res)=>{
       const email = req.params.email;
-      console.log(email)
       const result = await tourismCollection.find({email:req.params.email}).toArray();
       res.send(result)
     })
@@ -69,7 +74,6 @@ async function run() {
     app.put('/update/:id', async(req, res)=>{
       const id = req.params.id;
       const updatedSpot = req.body;
-      console.log(updatedSpot)
       const filter = {_id: new ObjectId(id)};
       const options = {upsert: true};
       const spot = {
