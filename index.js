@@ -59,6 +59,13 @@ async function run() {
       res.send(result)
     })
 
+    app.get('/allspots/sorted', async(req, res)=>{
+      const cursor = tourismCollection.find().sort({"avg_cost":1});
+      const result = await cursor.toArray();
+      console.log(result);
+      res.send(result);
+    })
+
     app.post('/addspot', async(req, res)=>{
       const spot = req.body;
       const result = await tourismCollection.insertOne(spot);
