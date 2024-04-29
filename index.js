@@ -25,6 +25,7 @@ async function run() {
     await client.connect();
 
     const tourismCollection = client.db('tourismDB').collection('tourism');
+    const countryCollection = client.db('tourismDB').collection('country');
 
     app.get('/addspot', async(req, res)=>{
       const spots = tourismCollection.find();
