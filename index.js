@@ -5,7 +5,12 @@ const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.use(cors());
+const corsConfig = {
+  origin: '*',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
+  }
+app.use(cors(corsConfig))
 app.use(express.json());
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.h0zb1dz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
@@ -22,7 +27,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
 
     const tourismCollection = client.db('tourismDB').collection('tourism');
     const countryCollection = client.db('tourismDB').collection('country');
@@ -53,7 +58,7 @@ async function run() {
       res.send(result);
     })
 
-    app.get('/mycart/:email', async(req, res)=>{
+    app.get('/myspotsemail/:email', async(req, res)=>{
       const email = req.params.email;
       const result = await tourismCollection.find({email:req.params.email}).toArray();
       res.send(result)
@@ -117,7 +122,7 @@ async function run() {
       res.send(result)
     })
     // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
+    // await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
     // Ensures that the client will close when you finish/error
