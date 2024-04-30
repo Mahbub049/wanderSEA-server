@@ -26,6 +26,7 @@ async function run() {
 
     const tourismCollection = client.db('tourismDB').collection('tourism');
     const countryCollection = client.db('tourismDB').collection('country');
+    const contactCollection = client.db('tourismDB').collection('contact');
 
     app.get('/addspot', async(req, res)=>{
       const spots = tourismCollection.find();
@@ -49,7 +50,6 @@ async function run() {
 
     app.get('/myspots/:country', async(req, res)=>{
       const result = await tourismCollection.find({country:req.params.country}).toArray();
-      console.log(result);
       res.send(result);
     })
 
@@ -69,6 +69,12 @@ async function run() {
     app.post('/addspot', async(req, res)=>{
       const spot = req.body;
       const result = await tourismCollection.insertOne(spot);
+      res.send(result);
+    })
+
+    app.post('/contact', async(req, res)=>{
+      const info = req.body;
+      const result = await contactCollection.insertOne(info);
       res.send(result);
     })
 
